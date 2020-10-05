@@ -1,0 +1,358 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+	<canvas id="myCanvas" width="1500" height="800"></canvas>
+
+	<script>
+		var level = [
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+			[2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2]
+		];
+
+		var c = document.getElementById("myCanvas");
+		var ctx = c.getContext("2d");
+
+		var graphics = [];
+		graphics[0] = new Image();
+		graphics[1] = new Image();
+		graphics[2] = new Image();
+		graphics[3] = new Image();
+		graphics[4] = new Image();
+
+		graphics[0].src = "darkgrey.png";
+		graphics[1].src = "grey.png";
+		graphics[2].src = "grass.png";
+		graphics[3].src = "stripe.png";
+		graphics[4].src = "yellowline.png";
+
+		ctx.save();
+		//ctx.setTransform(0, 0, 0, 0, 0, 0);
+		ctx.drawImage(graphics[3], 64*10, 64*10, 64, 64);
+
+		ctx.restore();
+		//ctx.setTransform(-1, -5.5, 0.5, -1, -30, -10);
+
+		ctx.save();
+		ctx.setTransform(0.4, 0, -0.1, 0.4, 420, 435);
+		ctx.drawImage(graphics[3], 0, 0, 64, 64);
+		ctx.restore();
+
+
+		ctx.save();
+		ctx.setTransform(1, 0, -0.4, 1, 320, 735);
+		ctx.drawImage(graphics[3], 0, 0, 64, 64);
+
+		ctx.restore();
+		
+
+		//ctx.setTransform(0.4, 0, -0.1, 0.4, 420, 435);
+		//ctx.drawImage(graphics[3], 0, 0, 64, 64);
+
+
+		var leftright = 0;
+		var movement=0;
+
+		function drawgame(){
+			for (var y = 0; y < 20; y++) {
+				for (var x = 0; x < 20; x++) {
+				//	ctx.setTransform(0, 0, 0, 0, 0, 0)
+					//if (x < 10) { ctx.setTransform(1, 5.5, -0.5, 1, 30, 10); }
+					ctx.drawImage(graphics[0], x * 64, y * 64, 64, 64);
+
+					if (x == 50) {
+						ctx.save();
+						ctx.setTransform(0.4 + (0.03 * y), 0, -0.1 - (0.03 * y), 0.4 + (0.03 * y), 420 - (5 * y), 435 + (y * 15));
+						ctx.drawImage(graphics[3], 0, 0, 64, 64);
+
+						ctx.restore();
+					}
+					
+
+				}
+			}
+
+			if (level == 55) {
+				ctx.save();
+				ctx.setTransform(0.95, 0, 1, 0.95, 50, 340);
+				ctx.drawImage(graphics[3], 640, 120, 64, 64);
+				ctx.setTransform(1, 0, 0, 1, -200, -500);
+
+				ctx.restore();
+
+				ctx.save();
+				ctx.setTransform(1, 0, 1, 1, 100, 400);
+				ctx.drawImage(graphics[3], 640, 120, 64, 64);
+				ctx.setTransform(1, 0, 0, 1, -200, -500);
+
+				ctx.restore();
+				ctx.save();
+				ctx.setTransform(1, 0, -1, 1, 200, 400);
+				ctx.drawImage(graphics[3], 320, 120, 64, 64);
+				ctx.setTransform(1, 0, 0, 1, -200, -500);
+
+				ctx.restore();
+
+
+
+				ctx.save();
+				ctx.setTransform(1, 0, -0.1, 1, 16, -28);
+				ctx.drawImage(graphics[3], 320, 720, 64, 64);
+				ctx.setTransform(1, 0, 0, 1, -200, -500);
+
+				ctx.restore();
+			}
+
+			var y = 0;
+
+			var z = 0;
+			var x = 0;
+
+			z = leftright;
+
+			z = leftright * 50;
+
+			x = leftright * 20;
+
+			//movement += 0.1;
+
+			if (movement > 1.1) { ////higher than 20 airplane
+				movement = 0.1;
+			}
+
+			//movement += 0.1;
+
+			//if (leftright < 0) {
+			//x = x * 10;
+			//}
+
+
+			//if (leftright < 0) {
+			//	z = z * -1;
+			//}
+
+			////(z * (50 - y))
+
+			for (var t = -12; t < 21; t++) {
+					y = t + movement;
+					ctx.save();
+					ctx.setTransform(0.4 + (0.03 * y), leftright, 0, 0.4 + (0.03 * y), 420 - (5 * y) - z, 435 + (y * 15) - x);
+					ctx.drawImage(graphics[3], 0, 0, 64, 64);
+
+					ctx.restore();
+			}
+
+			z = leftright * 50;
+
+
+			//if (leftright > 0) {
+			//	z = z * -1;
+			//}
+
+			x = leftright * 20;
+
+			//if (leftright > 0) {
+			//	x = x * -1;
+			//}
+
+			for (var t = -12; t < 21; t++) {
+
+				y = t + movement;
+				ctx.save();
+				ctx.setTransform(0.4 + (0.03 * y), leftright, 0, 0.4 + (0.03 * y), 840 + (5 * y) - z, 435 + (y * 15) - x);
+				ctx.drawImage(graphics[3], 0, 0, 64, 64);
+
+				ctx.restore();
+			}
+
+			for (var t = -12; t < 21; t++) {
+				if (Number.isInteger(t / 4)) {
+					y = t + movement * 2;
+					ctx.save();
+					ctx.setTransform(0.4 + (0.03 * y), leftright, 0, 0.4 + (0.03 * y), 640, 435 + (y * 15));
+					ctx.drawImage(graphics[4], 0, 0, 64, 64);
+
+					ctx.restore();
+				}
+				
+			}
+
+			if (accel > 0){ accel -= 0.05; }
+
+			if (accel > 0) {
+				movement += 0.1
+			}
+
+			if (accel > 1) {
+				movement += 0.1
+			}
+			if (accel > 2) {
+				movement += 0.1
+			}
+			if (accel > 3) {
+				movement += 0.1
+			}
+			if (accel > 4) {
+				movement += 0.1
+			}
+
+			return 
+
+			//////-3.5 leftright, skew horizontal, interesting
+
+			ctx.save();
+			ctx.setTransform(0.4, 0, 0.4, 0.4, 840, 435);
+			ctx.drawImage(graphics[3], 0, 0, 64, 64);
+
+			ctx.restore();
+
+			ctx.save();
+			ctx.setTransform(1, 0, 0.4, 1, 940, 735);
+			ctx.drawImage(graphics[3], 0, 0, 64, 64);
+
+			ctx.restore();
+
+			return
+
+			y = 1.8; //1 sqrt(1) * 2
+			y = 2;
+
+			ctx.save();
+			ctx.setTransform(0.4 + (0.03 * y), 0, -0.1 - (0.03 * y), 0.4 + (0.03 * y), 420 - (5 * y), 435 + (y * 15));
+			ctx.drawImage(graphics[3], 0, 0, 64, 64);
+
+			ctx.restore();
+
+			y = 3.8; //2  sqrt(2) * 2
+
+			ctx.save();
+			ctx.setTransform(0.4 + (0.03 * y), 0, -0.1 - (0.03 * y), 0.4 + (0.03 * y), 420 - (5 * y), 435 + (y * 15));
+			ctx.drawImage(graphics[3], 0, 0, 64, 64);
+
+			ctx.restore();
+
+			y = 6; //3
+
+			ctx.save();
+			ctx.setTransform(0.4 + (0.03 * y), 0, -0.1 - (0.03 * y), 0.4 + (0.03 * y), 420 - (5 * y), 435 + (y * 15));
+			ctx.drawImage(graphics[3], 0, 0, 64, 64);
+
+			ctx.restore();
+
+			y = 8.5; //4
+
+			ctx.save();
+			ctx.setTransform(0.4 + (0.03 * y), 0, -0.1 - (0.03 * y), 0.4 + (0.03 * y), 420 - (5 * y), 435 + (y * 15));
+			ctx.drawImage(graphics[3], 0, 0, 64, 64);
+
+			ctx.restore();
+
+			return;
+
+			ctx.save();
+			ctx.setTransform(0.4, 0, -0.1, 0.4, 420, 435);
+			ctx.drawImage(graphics[3], 0, 0, 64, 64);
+
+			ctx.restore();
+
+			ctx.save();
+			ctx.setTransform(0.4, 0, -0.1, 0.4, 420, 435);
+			ctx.drawImage(graphics[3], 0, 0, 64, 64);
+
+			ctx.restore();
+			
+
+			ctx.save();
+			ctx.setTransform(1, 0, -0.4, 1, 320, 735);
+			ctx.drawImage(graphics[3], 0, 0, 64, 64);
+
+			ctx.restore();
+
+
+
+
+
+			return
+			ctx.save();
+			ctx.setTransform(1, 0, 0.4, 1, 940, 735);
+			ctx.drawImage(graphics[3], 0, 0, 64, 64);
+
+			ctx.restore();
+
+
+		}
+
+
+
+		document.addEventListener("keydown", keyDown, false);
+		document.addEventListener("keyup", keyUp, false);
+
+		var accel = 0;
+
+		function keyUp(e) {
+
+			if (e.keyCode == 87) {
+				//accel = 0;
+			}
+
+		}
+
+		function keyDown(e) {
+
+			if (e.keyCode == 65) {
+				if (leftright > -0.5) {
+					leftright -= 0.1
+				}
+			}
+			if (e.keyCode == 68) {
+				if (leftright < 0.5) {
+					leftright += 0.1
+				}
+			}
+			if (e.keyCode == 87) {
+				accel += 0.2;
+				
+			}
+
+		}
+
+		//ctx.setTransform(1, 5.5, -0.5, 1, 30, 10);
+		//ctx.fillStyle = "yellow";
+		//ctx.fillRect(0, 0, 250, 100)
+
+		//ctx.setTransform(1, 5.5, -0.5, 1, 30, 10);
+		//ctx.fillStyle = "red";
+		//ctx.fillRect(0, 0, 250, 100);
+
+		//ctx.setTransform(1, 0.5, -0.5, 1, 30, 10);
+		//ctx.fillStyle = "blue";
+		//ctx.fillRect(0, 0, 250, 100);
+
+		setInterval(drawgame, 16);
+
+	</script>
+
+</body>
+</html>
