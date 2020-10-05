@@ -812,7 +812,16 @@
 		function keyUp(e) {
 
 			if (e.keyCode == 87) {
-				//accel = 0;
+				touchdown[0] = false;
+			}
+			if (e.keyCode == 83) {
+				touchdown[3] = false;
+			}
+			if (e.keyCode == 65) {
+				touchdown[2] = false;
+			}
+			if (e.keyCode == 68) {
+				touchdown[1] = false;
 			}
 
 		}
@@ -823,20 +832,20 @@
 				if (leftright > -0.5) {
 					//leftright -= 0.1
 				}
-				turnradius--;
+				touchdown[2] = true;
 			}
 			if (e.keyCode == 68) {
 				if (leftright < 0.5) {
 					//leftright += 0.1
 				}
-				turnradius++;
+				touchdown[1] = true;
 			}
 			if (e.keyCode == 87) {
-				accel += 0.2;
+				touchdown[0] = true;
 
 			}
 			if (e.keyCode == 83) {
-				accel -= 0.2;
+				touchdown[3] = true;
 
 			}
 
