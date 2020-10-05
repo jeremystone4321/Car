@@ -712,6 +712,9 @@
 			} if (touchdown[2] == true) {
 				turnradius++;
 			}
+		 if (touchdown[3] == true) {
+			 accel -= 0.2;
+		}
 
 			return
 
@@ -832,6 +835,10 @@
 				accel += 0.2;
 
 			}
+			if (e.keyCode == 83) {
+				accel -= 0.2;
+
+			}
 
 		}
 
@@ -850,23 +857,25 @@
 		setInterval(drawgame, 16);
 
 
-		document.addEventListener("touchstart", touchstart);
+		document.addEventListener("touchstart", touchstart, { passive: false });
 		document.addEventListener("touchend", touchend);
 
-		var touchdown = [false, false, false];
+		var touchdown = [false, false, false, false];
 		
 
 		function touchstart(e) {
-
-			console.log(window.innerWidth)
+			
 
 			if (e.touches[0].clientY > window.innerHeight / 2) {
 				touchdown[0] = true;
 
 			}
+			if (e.touches[0].clientY < window.innerHeight / 2) {
+				touchdown[3] = true;
+
+			}
 
 			if (e.touches[0].clientX < window.innerWidth / 2 - window.innerWidth / 3) {
-				console.log("HEY")
 				touchdown[1] = true;
 			}
 
@@ -875,13 +884,17 @@
 			}
 
 
+			e.preventDefault();
+
+
 		}
 
 		function touchend(e) {
 
 				touchdown[0] = false;
-				touchdown[1] = false;
-				touchdown[2] = false;
+			touchdown[1] = false;
+			touchdown[2] = false;
+			touchdown[3] = false;
 			
 
 
