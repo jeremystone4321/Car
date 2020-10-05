@@ -705,6 +705,14 @@
 
 			ctx.drawImage(graphics[7], 0, 0, 1300, 200);
 
+			if (touchdown[0] == true) {
+				accel += 0.2;
+			} if (touchdown[1] == true) {
+				turnradius--;
+			} if (touchdown[2] == true) {
+				turnradius++;
+			}
+
 			return
 
 			//////-3.5 leftright, skew horizontal, interesting
@@ -840,6 +848,44 @@
 		//ctx.fillRect(0, 0, 250, 100);
 
 		setInterval(drawgame, 16);
+
+
+		document.addEventListener("touchstart", touchstart);
+		document.addEventListener("touchend", touchend);
+
+		var touchdown = [false, false, false];
+		
+
+		function touchstart(e) {
+
+			console.log(window.innerWidth)
+
+			if (e.touches[0].clientY > window.innerHeight / 2) {
+				touchdown[0] = true;
+
+			}
+
+			if (e.touches[0].clientX < window.innerWidth / 2 - window.innerWidth / 3) {
+				console.log("HEY")
+				touchdown[1] = true;
+			}
+
+			if (e.touches[0].clientX > window.innerWidth / 2 + window.innerWidth / 3) {
+				touchdown[2] = true;
+			}
+
+
+		}
+
+		function touchend(e) {
+
+				touchdown[0] = false;
+				touchdown[1] = false;
+				touchdown[2] = false;
+			
+
+
+		}
 
 	</script>
 
