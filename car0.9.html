@@ -87,6 +87,15 @@
 		var turnradius = 0;
 		var lineyellow = 0;
 
+		var treepos = 0;
+
+		var treeypos = 450;
+
+		var treexpos = 0;
+
+		var treexposfinal = 0;
+		var treeyposfinal = 0;
+
 		function drawgame() {
 			for (var y = 0; y < 20; y++) {
 				for (var x = 0; x < 20; x++) {
@@ -128,10 +137,13 @@
 				movement = 0.1;
 			}
 
-			ypos = 250;
+			
+			ypos = 450;
 			ypos = ypos;
+			treeypos = 450;
 
-			for (var t = 0; t < 21; t++) {
+
+			for (var t = 0; t < 151; t++) {
 
 				y = t + lineyellow;
 
@@ -139,13 +151,15 @@
 				numtiles = 10;
 
 
-				ypos = ypos + (0.1 * (y-1)) * (64);
+				ypos = ypos + (0.01 * (y - 1)) * (6.4);
+				treeypos = treeypos + (0.01 * (t - 1)) * (6.4);;
 
 
 				//for (var x = 0; x < numtiles; x++) {
 
-					g = 250 / 2 + y * 64;
-					var xpos = 400 + (10-y)*10 ;
+				g = 250 / 2 + y * 64;
+				var xpos = 400 + (100 - y) * 2;
+				treexpos = 400 + (90 - t) * 2;
 
 					//if (y == 19) {
 					/*
@@ -194,23 +208,29 @@
 					*/
 
 				var xwidth = 0;
-				xwidth = 650 - (10 - y) * 32;
+				xwidth = 650 - (100 - y) * 6.4;
 				xwidth = xwidth / 2;
 
 				p = turnradius;
 
-				if (turnradius < 0) {
-					h = 0 + (5 * y) + (400 - t * 10 * (Math.sin(turnradius / 100 * -1)));
-					xpos = h - (p * y) + turnradius;
+				if (turnradius <= 0) {
+					//h = 0 + (5 * y) + (400 - t * 10 * (Math.sin(turnradius / 100 * -1)));
+					//xpos = h - (p * y) + turnradius;
+					xpos = xpos + (100 - y) * turnradius;
+					treexpos = treexpos + (100 - t) * turnradius;
 				}
 
 				if (turnradius > 0) {
-					h = 450 -(5 * y) + (50 - t * 10 * (Math.sin(turnradius / 100)));
-					xpos = h + (p*-1 * y) + turnradius;
+					//h = 450 -(5 * y) + (50 - t * 10 * (Math.sin(turnradius / 100)));
+					//xpos = h + (p*-1 * y) + turnradius;
+					xpos = xpos + (100 - y) * turnradius;
+					treexpos = treexpos + (100 - t) * turnradius / 1.5;
+					treexpos = treexpos - (55-t) * (Math.sin(turnradius / 100))+t*-2;
+
 				}
 
-						ctx.save();
-					if (Number.isInteger(t / 2)) {
+						//ctx.save();
+				if (Number.isInteger(t / 3) == false) {
 					/*	ctx.setTransform(
 							0.1 * y,
 							0,
@@ -220,16 +240,48 @@
 							ypos);
 							*/
 
-				ctx.drawImage(graphics[1], xpos, ypos, xwidth, 64*(0.1*y));
-						ctx.drawImage(graphics[1], xpos + xwidth / 2, ypos, xwidth, 64*(0.1 * y));
+					ctx.drawImage(graphics[1], xpos, ypos, xwidth, 6.4 * (0.01 * y));
+					ctx.drawImage(graphics[1], xpos + xwidth / 2, ypos, xwidth, 6.4 * (0.01 * y));
 
-						ctx.restore();
+
+
+
+
+					//	ctx.restore();
+				}
+				if (Number.isInteger(t / 3) == true) {
+					ctx.drawImage(graphics[0], xpos, ypos, xwidth, 6.4 * (0.01 * y));
+					ctx.drawImage(graphics[0], xpos + xwidth / 2, ypos, xwidth, 6.4 * (0.01 * y));
 					}
+
+				if (Number.isInteger(t / 5) == true) {
+					ctx.drawImage(graphics[4], xpos + xwidth / 1.5, ypos, 12.4 * (0.01 * y), 12.4 * (0.01 * y));
+				}
+
+				ctx.drawImage(graphics[3], xpos - 12.4 * (0.01 * y), ypos, 12.4 * (0.01 * y), 6.4 * (0.01 * y));
+				ctx.drawImage(graphics[3], xpos + xwidth * 1.5, ypos, 10.4 * (0.01 * y), 6.4 * (0.01 * y));
+
+
+				if (Math.floor(treepos) == t) {
+					treexposfinal = treexpos;
+
+					treeyposfinal = treeypos;
+				}
+
 					///}
 
 				//}
 			}
 
+				ctx.drawImage(graphics[5], treexposfinal - 228 * (0.01 * Math.floor(treepos)), treeyposfinal, 128 * (0.01 * Math.floor(treepos)), 128 * (0.01 * Math.floor(treepos)));
+			
+
+			if (treepos >= 102) {
+				treepos = 0;
+				treeypos = 450;
+			}
+
+			/*
 			for (var t = -10; t < 31; t++) {
 
 				p = turnradius;
@@ -360,7 +412,7 @@
 
 				ctx.restore();
 			}
-
+			*/
 
 
 
@@ -429,6 +481,7 @@
 				lineyellow = 0;
 			}
 
+			/*
 			for (var t = -14; t < 31; t++) {
 
 				if (Number.isInteger(t / 4)) {
@@ -497,7 +550,7 @@
 				}
 
 			}
-
+			*/
 
 			/////////////////////////////tree
 
@@ -580,7 +633,7 @@
 				m,
 				moveh,
 				g + (tree * 20));
-			ctx.drawImage(graphics[5], 0, 0, 192, 192);
+			//ctx.drawImage(graphics[5], 0, 0, 192, 192);
 
 			ctx.restore();
 
@@ -665,7 +718,7 @@
 				m,
 				moveh,
 				g + (rock * 20));
-			ctx.drawImage(graphics[6], 0, 0, 192, 192);
+			//ctx.drawImage(graphics[6], 0, 0, 192, 192);
 
 			ctx.restore();
 
@@ -677,23 +730,28 @@
 			if (accel > 0) {
 				movement += 0.1;
 				lineyellow += 0.1;
+				treepos = treepos + 0.1;
 			}
 
 			if (accel > 1) {
 				movement += 0.1;
 				lineyellow += 0.1;
+				treepos = treepos + 0.1;
 			}
 			if (accel > 2) {
 				movement += 0.1;
 				lineyellow += 0.1;
+				treepos = treepos + 0.1;
 			}
 			if (accel > 3) {
 				movement += 0.1;
 				lineyellow += 0.1;
+				treepos = treepos + 0.1;
 			}
 			if (accel > 4) {
 				movement += 0.1;
 				lineyellow += 0.1;
+				treepos = treepos + 0.1;
 			}
 
 			if (accel > 10) {
@@ -701,7 +759,7 @@
 			}
 
 
-			ctx.drawImage(graphics[7], 0, 0, 1300, 300);
+			ctx.drawImage(graphics[7], 0, 0, 1300, 450);
 
 			if (touchdown[0] == true) {
 				accel += 0.2;
